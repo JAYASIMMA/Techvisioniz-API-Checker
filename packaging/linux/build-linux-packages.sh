@@ -68,12 +68,22 @@ exec "$HERE/usr/bin/techvision-api-checker" "$@"
 APPRUN
 chmod +x "$APPDIR/AppRun"
 
+# appimagetool is distributed as an AppImage, which needs FUSE to run. GitHub's
+# Ubuntu 24.04 runners often lack libfuse2, so extract-and-run is used, and an
+# AppImage failure is not allowed to break the deb/rpm artifacts.
 if command -v appimagetool >/dev/null 2>&1; then
-  ARCH=x86_64 appimagetool "$APPDIR" "$OUT/${APP}-${VERSION}-x86_64.AppImage"
+  if ! ARCH=x86_64 appimagetool "$APPDIR" "$OUT/${APP}-${VERSION}-x86_64.AppImage" 2>/dev/null; then
+    echo "appimagetool needs FUSE; retrying with --appimage-extract-and-run" >&2
+    ARCH=x86_64 APPIMAGE_EXTRACT_AND_RUN=1 appimagetool "$APPDIR" \
+      "$OUT/${APP}-${VERSION}-x86_64.AppImage" \
+      || echo "WARNING: AppImage build failed; deb and rpm are still valid" >&2
+  fi
 else
-  echo "appimagetool not found: leaving $APPDIR ready, and writing a tarball instead" >&2
-  tar -C "$(dirname "$APPDIR")" -czf "$OUT/${APP}-${VERSION}-x86_64.AppDir.tar.gz" "$(basename "$APPDIR")"
+  echo "appimagetool not found: writing an AppDir tarball instead" >&2
 fi
+
+# Always keep a portable fallback next to the AppImage.
+tar -C "$(dirname "$APPDIR")" -czf "$OUT/${APP}-${VERSION}-x86_64.AppDir.tar.gz" "$(basename "$APPDIR")"
 
 log "artifacts"
 ls -lh "$OUT"
