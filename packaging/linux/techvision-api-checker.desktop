@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Techvision API Checker
+GenericName=API client
+Comment=Send HTTP requests, manage collections, environments and Postman imports
+Exec=techvision-api-checker
+Terminal=false
+Icon=techvision-api-checker
+Categories=Development;Network;
+StartupNotify=true
+Keywords=http;api;rest;postman;request;tester;

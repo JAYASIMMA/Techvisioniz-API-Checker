@@ -1,0 +1,13 @@
+# Rust build output and generated packages; Cargo.lock is committed on purpose
+# because this is an application, not a library.
+/target/
+/dist/
+*.wixpdb
+
+# Editor and tooling noise
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+.playwright-mcp/
