@@ -85,12 +85,15 @@ Run the portable `.exe` instead if you prefer to skip installing.
 
 | File | Notes |
 | --- | --- |
-| `Techvision API Checker-1.0.1-macos.dmg` | Drag-to-Applications disk image, universal binary (Apple Silicon + Intel) |
-| `Techvision API Checker-1.0.1-macos.tar.gz` | Same `.app`, no disk image |
+| `Techvision.API.Checker-1.0.1-macos.dmg` | Drag-to-Applications disk image, universal binary (Apple Silicon + Intel) |
+| `Techvision.API.Checker-1.0.1-macos.tar.gz` | Same `.app`, no disk image |
+
+> The bundle inside is still `Techvision API Checker.app`. GitHub replaces spaces with dots when it
+> uploads release assets, so the downloaded file names differ from the local build output.
 
 ```bash
 # 1. Move it to Applications
-hdiutil attach "Techvision API Checker-1.0.1-macos.dmg"
+hdiutil attach "Techvision.API.Checker-1.0.1-macos.dmg"
 cp -R "/Volumes/Techvision API Checker/Techvision API Checker.app" /Applications/
 hdiutil detach "/Volumes/Techvision API Checker"
 
