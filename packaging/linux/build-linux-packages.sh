@@ -34,9 +34,11 @@ cargo deb --no-build --output "$OUT/${APP}_${VERSION}_amd64.deb"
 
 log "rpm (cargo-generate-rpm)"
 command -v cargo-generate-rpm >/dev/null 2>&1 || cargo install cargo-generate-rpm --locked
-cargo generate-rpm --target x86_64-unknown-linux-gnu -o "$OUT"
-# cargo-generate-rpm names the file itself; move whatever it produced into dist/linux.
-find target -maxdepth 2 -name "${APP}-*.rpm" -exec mv -f {} "$OUT/" \;
+# No --target: the binary was built into target/release, and passing a triple makes
+# cargo-generate-rpm look under target/<triple>/release instead.
+cargo generate-rpm -o "$OUT"
+# cargo-generate-rpm names the file itself; move anything left in target into dist/linux.
+find target -maxdepth 2 -name "${APP}-*.rpm" -exec mv -f {} "$OUT/" \; 2>/dev/null || true
 
 log "AppImage"
 APPDIR="$ROOT/dist/AppDir"

@@ -1,0 +1,25 @@
+# Normalise text to LF in the repository. Without this, a Windows checkout with
+# core.autocrlf=true rewrites the shell scripts to CRLF and they fail on Linux/macOS
+# (bash reads the carriage return as part of the command).
+* text=auto eol=lf
+
+# Windows-only files keep CRLF so they behave when opened in Notepad / PowerShell 5.1.
+*.ps1    text eol=crlf
+*.wxs    text eol=crlf
+*.rtf    text eol=crlf
+*.cmd    text eol=crlf
+*.bat    text eol=crlf
+
+# Binary assets must never be line-ending converted.
+*.png    binary
+*.ico    binary
+*.bmp    binary
+*.icns   binary
+*.msi    binary
+*.exe    binary
+*.AppImage binary
+*.wixpdb binary
+
+# Diffs
+*.rs   diff=rust
+*.toml text
