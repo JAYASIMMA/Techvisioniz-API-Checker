@@ -150,6 +150,9 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name }}
+          # Without this the release is titled with the bare tag ("v1.0.1").
+          name: Techvision API Checker ${{ github.ref_name }}
           draft: ${{ github.event.inputs.draft == 'true' }}
           generate_release_notes: true
           files: artifacts/*
